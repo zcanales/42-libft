@@ -12,7 +12,7 @@
 
 NAME = libft.a
 
-SRC = 	ft_atoi.c\
+SRC_C = ft_atoi.c\
 		ft_bzero.c\
 		ft_calloc.c\
 		ft_isalnum.c\
@@ -47,9 +47,12 @@ SRC = 	ft_atoi.c\
 		ft_tolower.c\
 		ft_toupper.c\
 
-OBJS =	$(SRC:.c=.o)
+SRC = $(addprefix src/, $(SRC_C))
 
-BONUS = ft_lstnew.c\
+OBJS = $(SRC:%.c=%.o)
+#OBJS =	$(SRC:.c=.o)
+
+BONUS_C = ft_lstnew.c\
 		ft_lstadd_front.c\
 		ft_lstsize.c\
 		ft_lstlast.c\
@@ -59,6 +62,7 @@ BONUS = ft_lstnew.c\
 		ft_lstiter.c\
 		ft_lstmap.c\
 
+BONUS = $(addprefix src/, $(BONUS_C))
 OBJS_BONUS = $(BONUS:.c=.o)
 
 CC = gcc
@@ -72,8 +76,9 @@ $(NAME) : $(OBJS)
 
 bonus: $(OBJS_BONUS) $(OBJS)
 	$(LIB) $(NAME) $(OBJS)  $(OBJS_BONUS)
+
 %.o : %.c 
-	$(CC) $(CFLAGS) -c $(SRC) $(BONUS)
+	$(CC) $(CFLAGS) -c $< -o $@
 clean:
 	rm -f $(OBJS) $(OBJS_BONUS)
 
